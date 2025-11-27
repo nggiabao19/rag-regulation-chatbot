@@ -66,7 +66,7 @@ advanced_rag_project/
 
 1.  **Clone dự án:**
     ```bash
-    git clone [https://github.com/nggiabao19/rag-regulation-chatbot.git](https://github.com/nggiabao19/rag-regulation-chatbot.git)
+    git clone https://github.com/nggiabao19/rag-regulation-chatbot.git
     cd rag-regulation-chatbot
     ```
 
