@@ -16,6 +16,34 @@ Hệ thống **Retrieval-Augmented Generation (RAG)** nâng cao, hỗ trợ tra 
 * **Citations:** Trích dẫn chính xác tên file và số trang của nguồn thông tin.
 
 ## Kiến trúc hệ thống (Architecture)
+```mermaid
+graph TD
+    subgraph Input [User Interface]
+        Q1["User Query"] -->|"Raw Input"| QR["Query Rewriting<br/>(GPT-4o-mini)"]
+    end
+
+    subgraph Retrieval [Hybrid Retrieval Engine]
+        QR -->|"Optimized Query"| HS{"Hybrid Search"}
+        HS -->|"Semantic Search"| VDB[("Pinecone<br/>Vector DB")]
+        HS -->|"Keyword Search"| KW["BM25 Index<br/>(In-Memory)"]
+        VDB & KW -->|"Top 10 Nodes"| M["Merge & Deduplicate"]
+    end
+
+    subgraph Processing [Advanced Processing]
+        M -->|"Candidate Nodes"| RR["Re-ranker Model<br/>(BAAI/bge-reranker)"]
+        RR -->|"Top 3 High Scores"| C["Context Window"]
+    end
+
+    subgraph Generation [LLM Response]
+        C -->|"Context + Query"| LLM["LLM Generator"]
+        LLM -->|"Answer"| F["Final Response<br/>with Citations"]
+    end
+
+    style Input fill:#f9f,stroke:#333,stroke-width:2px
+    style Retrieval fill:#ccf,stroke:#333,stroke-width:2px
+    style Processing fill:#ffc,stroke:#333,stroke-width:2px
+    style Generation fill:#cfc,stroke:#333,stroke-width:2px
+```
 
 
 
